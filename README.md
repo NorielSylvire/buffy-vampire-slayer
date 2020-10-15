@@ -2,9 +2,9 @@
  Buffy the Vampire Slayer, a tower defense game with ASCII graphics.
  
 # License and Copyright
- Buffy the Vampire Slayer game by Noriel_Sylvire and Asier.
+ Buffy the Vampire Slayer game by Noriel_Sylvire and ASofrohan.
 
- Copyright (c) 2020-2021 Noriel_Sylvire and Asier.
+ Copyright (c) 2020-2021 Noriel_Sylvire and ASofrohan.
  Licensed under the GPL v3 license.
 
 # Game Description
