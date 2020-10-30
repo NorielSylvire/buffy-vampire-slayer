@@ -16,7 +16,7 @@ public class Slayer {
 	}
 	
 	
-	//hola
+	//holap
 	/* TODO When new types of damage are added, such as area or diagonal,
 	 * create an enum with the different types. */
 	
