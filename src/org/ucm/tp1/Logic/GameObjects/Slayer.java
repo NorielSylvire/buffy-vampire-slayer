@@ -8,15 +8,16 @@ public class Slayer {
     private int row;
     private int column;
 
-    public Slayer() {
+    public Slayer(int row, int column) {
         this.cost = 50;
         this.health = 3;
         this.fireRate = 1;
         this.damage = 1;
+        this.row = row;
+        this.column = column;
     }
 
 
-    //holap
     /* TODO When new types of damage are added, such as area or diagonal,
      * create an enum with the different types. */
 

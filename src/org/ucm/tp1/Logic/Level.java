@@ -1,27 +1,35 @@
+//He creado los getter de las dimensiones para el printGame
 package org.ucm.tp1.Logic;
 
 public enum Level {
-	EASY("easy", 3, 0.1, 8, 4), HARD("hard", 5, 0.2, 7, 3), INSANE("insane", 10, 0.3, 5, 6);
+    EASY("easy", 3, 0.1, 8, 4), HARD("hard", 5, 0.2, 7, 3), INSANE("insane", 10, 0.3, 5, 6);
 
-	private String name;
-	private int numberOfVampires;
-	private double vampireFrequency;
-	private int dim_x, dim_y;
+    private String name;
+    private int numberOfVampires;
+    private double vampireFrequency;
+    private int dim_x, dim_y;
 
-	private Level(String name, int numberOfVampires, double vampireFrequency, int dim_x, int dim_y) {
-		this.name = name;
-		this.numberOfVampires = numberOfVampires;
-		this.vampireFrequency = vampireFrequency;
-		this.dim_x = dim_x;
-		this.dim_y = dim_y;
-	}
-
-	// TODO fill your code
+    private Level(String name, int numberOfVampires, double vampireFrequency, int dim_x, int dim_y) {
+        this.name = name;
+        this.numberOfVampires = numberOfVampires;
+        this.vampireFrequency = vampireFrequency;
+        this.dim_x = dim_x;
+        this.dim_y = dim_y;
+    }
+    
+    public int getDim_x() {
+        return dim_x;
+    }
+    
+    public int getDim_y() {
+        return dim_y;
+    }
+    // TODO fill your code
 
     public static Level parse(String inputString) {
         for (Level level : Level.values())
             if (level.name().equalsIgnoreCase(inputString)) 
-            	return level;
+                return level;
         return null;
     }
     
