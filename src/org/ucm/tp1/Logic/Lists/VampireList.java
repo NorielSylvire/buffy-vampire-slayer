@@ -3,13 +3,14 @@ import org.ucm.tp1.Logic.GameObjects.Vampire;
 import org.ucm.tp1.Logic.Level;
 
 public class VampireList {
-	private int counter;	//restar cada vez que aparezca uno
+	private int vRemaining;	//restar cada vez que aparezca uno
+	private int counter;	//vampiros que han aparecido
 	Vampire[] vampireList;
 	
 	public VampireList(Level l) {
-		this.counter = l.getNumberOfVampires();			//numero de vampiros en esa dificultad
-		this.vampireList = new Vampire[this.counter];	//crear array de vampiros
-		for(int i = 0; i < this.counter; i++) {			//inicializar vampiros
+		this.vRemaining = l.getNumberOfVampires();			//numero de vampiros en esa dificultad
+		this.vampireList = new Vampire[this.vRemaining];	//crear array de vampiros
+		for(int i = 0; i < this.vRemaining; i++) {			//inicializar vampiros
 			vampireList[i] = new Vampire();
 		}
 	}
@@ -21,7 +22,13 @@ public class VampireList {
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
+	public int getvRemaining() {
+		return vRemaining;
+	}
 
+	public void setvRemaining(int vRemaining) {
+		this.vRemaining = vRemaining;
+	}
 	public Vampire[] getVampireList() {
 		return vampireList;
 	}
