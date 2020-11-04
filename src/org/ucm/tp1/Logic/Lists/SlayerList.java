@@ -8,7 +8,7 @@ public class SlayerList {
 	
 	public SlayerList() {
 		this.counter = 0;			//numero de slayers en el tablero
-		this.slayerList = new Slayer[30];	//crear array de slayers
+		this.slayerList = new Slayer[28];	//crear array de slayers
 		for(int i = 0; i < 30; i++) {			//inicializar slayers
 			slayerList[i] = new Slayer();
 		}

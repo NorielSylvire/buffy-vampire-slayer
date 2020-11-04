@@ -16,7 +16,9 @@ public class Vampire {
         this.move = false;
         this.deployed = false;
 	}
-
+	public void moveForward() {
+		this.setColumn(this.getColumn()-1);
+	}
 	public int getHealth() {
 		return health;
 	}

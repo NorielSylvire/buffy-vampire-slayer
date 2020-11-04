@@ -18,7 +18,7 @@ public class GameObjectBoard {
 	public void update(){
 		
 	}
-	public void addSlayer(){
+	public void addSlayer(int row, int colum){
 		
 	}
 	public void addVampire(){
@@ -27,13 +27,13 @@ public class GameObjectBoard {
 	public void removeDead(){
 		//remove slayers
 		for(int i = 0; i < this.slayerList.getCounter(); i++) {
-			if(this.slayerList.getSlayerList()[i].getHealth() == 0) {
+			if(this.slayerList.getSlayerList()[i].getHealth() <= 0) {
 				this.slayerList.getSlayerList()[i].setDeployed(false);
 			}
 		}
 		//remove vampires
 		for(int i = 0; i < this.vampireList.getCounter(); i++) {
-			if(this.vampireList.getVampireList()[i].getHealth() == 0) {
+			if(this.vampireList.getVampireList()[i].getHealth() <= 0) {
 				this.vampireList.getVampireList()[i].setDeployed(false);
 			}
 		}
