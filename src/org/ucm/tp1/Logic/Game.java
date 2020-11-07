@@ -1,12 +1,11 @@
 package org.ucm.tp1.Logic;
 
-import java.util.Arrays;
+import java.util.Random;
 
 public class Game {
     private Long seed;
     private Level level;
     private int cycles;
-    private int coins;
     private short[][] board = new short[8][8];
     /* 0 = Nada
      * 1 = Slayer
@@ -14,13 +13,19 @@ public class Game {
      */
     private GameObjectBoard gameObjectBoard;
     
+    
     public Game(long seed, Level level) {
         this.seed = seed;
         this.level = level;
         this.cycles = 0;
-        this.coins = 50;
         emptyBoard();
         this.gameObjectBoard = new GameObjectBoard(level);
+    }
+    
+    public double randomGenerator(Long seed) {
+    	Random generator = new Random(seed);
+    	setSeed(seed++);
+    	return generator.nextDouble();
     }
     
     public int getCycles()  {
@@ -29,14 +34,6 @@ public class Game {
     
     public void setCycles(int nCycles) {
         this.cycles = nCycles;
-    }
-    
-    public int getCoins() {
-        return coins;
-    }
-    
-    public void setCoins(int amount) {
-        this.coins = amount;
     }
     
     public short[][] getBoard() {
@@ -53,9 +50,17 @@ public class Game {
     
     public void setLevel(Level newLevel) {
         this.level = newLevel;
-    }
+    }   
     
-    public GameObjectBoard getGameObjectBoard() {
+    public Long getSeed() {
+		return seed;
+	}
+
+	public void setSeed(Long seed) {
+		this.seed = seed;
+	}
+
+	public GameObjectBoard getGameObjectBoard() {
         return gameObjectBoard;
     }
     

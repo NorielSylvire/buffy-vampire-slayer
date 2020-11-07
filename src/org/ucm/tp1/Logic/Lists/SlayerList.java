@@ -13,7 +13,17 @@ public class SlayerList {
 			slayerList[i] = new Slayer();
 		}
 	}
-
+	
+	public boolean checkPos(int row, int column) {		//comprobar si en esa posicion no hay nada
+		boolean ok = true;
+		for(int i=0; i<30; i++) {
+			if(this.slayerList[i].getDeployed() && this.slayerList[i].getRow() == row && this.slayerList[i].getColumn() == column) {
+				ok = false;
+			}
+		}
+		return ok;
+	}
+	
 	public int getCounter() {
 		return counter;
 	}

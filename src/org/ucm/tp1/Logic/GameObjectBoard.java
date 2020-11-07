@@ -15,11 +15,17 @@ public class GameObjectBoard {
 		this.slayerList = new SlayerList();
 		this.vampireList = new VampireList(l);
 	}
+	
+	
 	public void update(){
-		
+		this.player.setCoins(this.player.getCoins()+10);
 	}
-	public void addSlayer(int row, int colum){
-		
+	public void addSlayer(int row, int column, Level l){
+		if(this.slayerList.getCounter() < 28 && this.player.getCoins() >= 50 && column != l.getDim_x() && this.slayerList.checkPos(row, column) && this.vampireList.checkPos(row, column)) {
+			this.slayerList.getSlayerList()[this.slayerList.getCounter()].deploySlayer(row, column);		//deploy slayer
+			this.slayerList.setCounter(this.slayerList.getCounter()+1);		//update slayer counter
+			this.getPlayer().setCoins(this.getPlayer().getCoins()-50);		//update coins
+		}		
 	}
 	public void addVampire(){
 		

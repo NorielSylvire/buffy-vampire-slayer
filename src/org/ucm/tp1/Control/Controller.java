@@ -33,7 +33,7 @@ public class Controller {
     
     public void  printGame() {
         System.out.println("Number of cycles: " + game.getCycles());
-        System.out.println("Coins: " + game.getCoins());
+        System.out.println("Coins: " + game.getGameObjectBoard().getPlayer().getCoins());
         System.out.println("Remaining vampires: " + game.getGameObjectBoard().getVampireList().getvRemaining());
         System.out.println("Vmpires on the board: " + game.getGameObjectBoard().getVampireList().getCounter());
         System.out.println(gameprinter.toString());
@@ -164,7 +164,7 @@ public class Controller {
     
     public void resetGame() {
         game.emptyBoard();
-        game.setCoins(50);
+        //new objectboard
     }
 
     public void addSlayer(String command) {
@@ -174,13 +174,13 @@ public class Controller {
                 command.substring(3,4).contentEquals(" ")) {
             posX = Integer.parseInt(command.substring(2,3));
             posY = Integer.parseInt(command.substring(4,5));
-            game.getGameObjectBoard().addSlayer(posX, posY);
+            game.getGameObjectBoard().addSlayer(posX, posY, game.getLevel());
         }
         else if (command.substring(3,4).contentEquals(" ") &&
                  command.substring(5,6).contentEquals(" ")) {
             posX = Integer.parseInt(command.substring(4,5));
             posY = Integer.parseInt(command.substring(6,7));
-            game.getGameObjectBoard().addSlayer(posX, posY);
+            game.getGameObjectBoard().addSlayer(posX, posY, game.getLevel());
         }
         else System.out.println(invalidCommandMsg);
     }

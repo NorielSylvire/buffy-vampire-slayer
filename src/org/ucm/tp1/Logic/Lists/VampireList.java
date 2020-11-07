@@ -15,6 +15,16 @@ public class VampireList {
 		}
 	}
 
+	public boolean checkPos(int row, int column) {		//comprobar si en esa posicion no hay nada
+		boolean ok = true;
+		for(int i=0; i<counter; i++) {
+			if(this.vampireList[i].getDeployed() && this.vampireList[i].getRow() == row && this.vampireList[i].getColumn() == column) {
+				ok = false;
+			}
+		}
+		return ok;
+	}
+	
 	public int getCounter() {
 		return counter;
 	}
