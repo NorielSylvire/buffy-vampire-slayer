@@ -8,6 +8,7 @@ public class VampireList {
 	Vampire[] vampireList;
 	
 	public VampireList(Level l) {
+		this.counter = 0;
 		this.vRemaining = l.getNumberOfVampires();			//numero de vampiros en esa dificultad
 		this.vampireList = new Vampire[this.vRemaining];	//crear array de vampiros
 		for(int i = 0; i < this.vRemaining; i++) {			//inicializar vampiros
@@ -23,6 +24,29 @@ public class VampireList {
 			}
 		}
 		return ok;
+	}
+	
+	public void addVampire(int row, int column){
+		this.vampireList[this.counter].deployVampire(row, column);		//deploy slayer
+		this.counter++;
+		this.vRemaining--;
+	}
+	
+	public void moveVampires() {
+		for(int i = 0; i < this.counter; i++) {
+			if(vampireList[i].getDeployed()) {
+				if(vampireList[i].getMove()) vampireList[i].moveForward();
+				vampireList[i].setMove(!vampireList[i].getMove());
+			}
+		}
+	}
+	
+	public void removeDead() {
+		for(int i = 0; i < this.counter; i++) {
+			if(this.vampireList[i].getHealth() <= 0) {
+				this.vampireList[i].setDeployed(false);
+			}
+		}
 	}
 	
 	public int getCounter() {

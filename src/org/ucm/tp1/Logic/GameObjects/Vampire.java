@@ -16,6 +16,11 @@ public class Vampire {
         this.move = false;
         this.deployed = false;
 	}
+    public void deployVampire(int row, int column) {
+    	this.column = row;
+    	this.row = column;
+    	this.deployed = true;
+    }
 	public void moveForward() {
 		this.setColumn(this.getColumn()-1);
 	}

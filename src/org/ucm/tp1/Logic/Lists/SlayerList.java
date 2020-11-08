@@ -24,6 +24,19 @@ public class SlayerList {
 		return ok;
 	}
 	
+	public void addSlayer(int row, int column){
+		this.slayerList[this.counter].deploySlayer(row, column);		//deploy slayer
+		this.counter++;
+	}
+	
+	public void removeDead() {
+		for(int i = 0; i < this.counter; i++) {
+			if(this.slayerList[i].getHealth() <= 0) {
+				this.slayerList[i].setDeployed(false);
+			}
+		}
+	}
+	
 	public int getCounter() {
 		return counter;
 	}

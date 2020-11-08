@@ -17,32 +17,55 @@ public class GameObjectBoard {
 	}
 	
 	
-	public void update(){
-		this.player.setCoins(this.player.getCoins()+10);
+	public void update(boolean addCoins){
+		if(addCoins) this.player.setCoins(this.player.getCoins()+10);
+		this.vampireList.moveVampires();
 	}
-	public void addSlayer(int row, int column, Level l){
-		if(this.slayerList.getCounter() < 28 && this.player.getCoins() >= 50 && column != l.getDim_x() && this.slayerList.checkPos(row, column) && this.vampireList.checkPos(row, column)) {
-			this.slayerList.getSlayerList()[this.slayerList.getCounter()].deploySlayer(row, column);		//deploy slayer
-			this.slayerList.setCounter(this.slayerList.getCounter()+1);		//update slayer counter
+	
+	public void attack() {
+		//attack slayers
+		int counter;		//number of shots a vampire will recieve
+		for(int j = 0; j < this.vampireList.getCounter(); j++) {
+			counter = 0;
+			for(int x = 1; x < this.vampireList.getVampireList()[j].getColumn(); x++) {		//check number of slayers in a row
+				if(!this.slayerList.checkPos(this.vampireList.getVampireList()[j].getRow(), x)) {
+					counter++;
+				}
+			}
+			this.vampireList.getVampireList()[j].setHealth(this.vampireList.getVampireList()[j].getHealth()-counter);		//recieve shots
+		}
+		//attack vampires
+		for(int i = 0; i < this.slayerList.getCounter(); i++) {
+			if(this.slayerList.getSlayerList()[i].getDeployed() && !this.vampireList.checkPos(this.slayerList.getSlayerList()[i].getRow(), this.slayerList.getSlayerList()[i].getColumn()+1)) {
+				this.slayerList.getSlayerList()[i].setHealth(this.slayerList.getSlayerList()[i].getHealth()-1);		//recieve vampire attack
+			}
+		}
+	}
+	
+	public boolean addSlayer(int row, int column){
+		boolean added = false;
+		if(this.slayerList.getCounter() < 28 && this.player.getCoins() >= 50 && this.slayerList.checkPos(row, column) && this.vampireList.checkPos(row, column)) {
+			this.slayerList.addSlayer(row, column);
 			this.getPlayer().setCoins(this.getPlayer().getCoins()-50);		//update coins
-		}		
+			added = true;
+		}
+		return added;
 	}
-	public void addVampire(){
-		
+	
+	public boolean addVampire(int row, int column){
+		boolean added = false;
+		if(this.vampireList.getvRemaining() > 0 && this.vampireList.checkPos(row, column)) {
+			this.vampireList.addVampire(row, column);
+			added = true;
+		}
+		return added;
 	}
+	
 	public void removeDead(){
 		//remove slayers
-		for(int i = 0; i < this.slayerList.getCounter(); i++) {
-			if(this.slayerList.getSlayerList()[i].getHealth() <= 0) {
-				this.slayerList.getSlayerList()[i].setDeployed(false);
-			}
-		}
+		this.slayerList.removeDead();
 		//remove vampires
-		for(int i = 0; i < this.vampireList.getCounter(); i++) {
-			if(this.vampireList.getVampireList()[i].getHealth() <= 0) {
-				this.vampireList.getVampireList()[i].setDeployed(false);
-			}
-		}
+		this.vampireList.removeDead();
 	}
 	
 	public Player getPlayer() {

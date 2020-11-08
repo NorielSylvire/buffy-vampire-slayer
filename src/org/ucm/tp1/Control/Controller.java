@@ -174,13 +174,13 @@ public class Controller {
                 command.substring(3,4).contentEquals(" ")) {
             posX = Integer.parseInt(command.substring(2,3));
             posY = Integer.parseInt(command.substring(4,5));
-            game.getGameObjectBoard().addSlayer(posX, posY, game.getLevel());
+            game.getGameObjectBoard().addSlayer(posX, posY);
         }
         else if (command.substring(3,4).contentEquals(" ") &&
                  command.substring(5,6).contentEquals(" ")) {
             posX = Integer.parseInt(command.substring(4,5));
             posY = Integer.parseInt(command.substring(6,7));
-            game.getGameObjectBoard().addSlayer(posX, posY, game.getLevel());
+            game.getGameObjectBoard().addSlayer(posX, posY);
         }
         else System.out.println(invalidCommandMsg);
     }
