@@ -16,6 +16,19 @@ public class GameObjectBoard {
 		this.vampireList = new VampireList(l);
 	}
 	
+	public boolean checkWin() {
+		boolean win = false;	
+		if(vampireList.getvRemaining() == 0 && vampireList.getvAlive() == 0) win = true;	
+		return win;
+	}
+	
+	public boolean checkLose() {
+		boolean lose = false;	
+		for(int i = 0; i < vampireList.getCounter(); i++) {
+			if(vampireList.getVampireList()[i].getColumn() == 0 && vampireList.getVampireList()[i].getMove()) lose = true;
+		}	
+		return lose;
+	}
 	
 	public void update(boolean addCoins){
 		if(addCoins) this.player.setCoins(this.player.getCoins()+10);
@@ -70,7 +83,7 @@ public class GameObjectBoard {
 			if(this.vampireList.checkPos(row, nColumns)) {
 				System.out.println(row);
 				System.out.println(nColumns);
-				this.vampireList.addVampire(2, 4);
+				this.vampireList.addVampire(row, nColumns);
 			}
 		}
 	}

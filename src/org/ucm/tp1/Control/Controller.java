@@ -55,6 +55,17 @@ public class Controller {
             executeCommand(command);
             game.update();
             command = "";
+            switch(game.checkEnd()) {
+            case 1:
+            	exitGame = true;
+            	System.out.println("YOU WIN!!");
+            	break;
+            case 2:
+            	exitGame = true;
+            	System.out.println("YOU LOSE!!");
+            	break;
+            	
+            }
         }
     }
 

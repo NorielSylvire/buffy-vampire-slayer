@@ -26,6 +26,13 @@ public class Game {
     	cycles++;
     }
     
+    public int checkEnd() {
+    	int info = 0;   	
+    	if(gameObjectBoard.checkWin()) info = 1;  	
+    	else if(gameObjectBoard.checkLose()) info = 2;   	
+    	return info;
+    }
+    
     public String toStringObjectAt(int row, int column) {
     	return this.gameObjectBoard.searchPos(row, column);
     }
