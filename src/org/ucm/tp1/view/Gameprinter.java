@@ -6,36 +6,28 @@ import org.ucm.tp1.utils.MyStringUtils;
 
 public class Gameprinter {
     
-    Game game;
     int numRows; 
     int numCols;
-    String[][] board = new String[8][8];
+    String[][] board;
     final String space = " ";
     
     public Gameprinter (Game game, int cols, int rows) {
-        this.game = game;
         this.numRows = rows;
         this.numCols = cols;
+        encodeGame(game);
     }
     
     private void encodeGame(Game game) {
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                if (game.getBoard()[i][j] == 0) {
-                    board[i][j] = space;
-                }
-                else if (game.getBoard()[i][j] == 1) {
-                    board[i][j] = "S";
-                }
-                else {
-                    board[i][j] = "V";
-                }
+		board = new String[numRows][numCols];
+        for(int i = 0; i < numRows; i++) {
+            for(int j = 0; j < numCols; j++) {
+            	board[i][j] =  game.toStringObjectAt(i, j);
             }
         }
     }
     
      public String toString() {
-         encodeGame(game);
+
          int cellSize = 7;
          int marginSize = 2;
          String vDelimiter = "|";

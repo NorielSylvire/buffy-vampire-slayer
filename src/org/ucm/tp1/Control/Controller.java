@@ -1,7 +1,8 @@
 package org.ucm.tp1.Control;
 import java.util.Scanner;
-import org.ucm.tp1.Logic.Game;
+import org.ucm.tp1.Logic.*;
 import org.ucm.tp1.view.Gameprinter;
+
 
 public class Controller {
     private boolean exitGame = false;
@@ -24,31 +25,36 @@ public class Controller {
     private Game game;
     private Scanner scanner;
     private Gameprinter gameprinter;
+    private long seedBackup;
+    private Level levelBackup;
     
     public Controller(Game game, Scanner scanner) {
         this.game = game;
-        this.gameprinter = new Gameprinter(game, game.getLevel().getDim_x(), game.getLevel().getDim_y());
+    	this.levelBackup = this.game.getLevel();
         this.scanner = scanner;
+        this.seedBackup = this.game.getSeed();
     }
     
     public void  printGame() {
         System.out.println("Number of cycles: " + game.getCycles());
         System.out.println("Coins: " + game.getGameObjectBoard().getPlayer().getCoins());
         System.out.println("Remaining vampires: " + game.getGameObjectBoard().getVampireList().getvRemaining());
-        System.out.println("Vmpires on the board: " + game.getGameObjectBoard().getVampireList().getCounter());
-        System.out.println(gameprinter.toString());
+        System.out.println("Vampires on the board: " + game.getGameObjectBoard().getVampireList().getvAlive());
+        this.gameprinter = new Gameprinter(game, game.getLevel().getDim_x(), game.getLevel().getDim_y());
+        System.out.println(gameprinter);
     }
-
     
     public void run() {
         String command = "";
         
         while(!exitGame) {
-            clearConsole();
+            //clearConsole(); Doesn't work yet
             printGame();
             System.out.print(prompt);
             command = scanner.nextLine();
             executeCommand(command);
+            game.update();
+            command = "";
         }
     }
     
@@ -71,13 +77,14 @@ public class Controller {
     }
 
     public void executeCommand(String commandAndArgs) {
-        String command = commandAndArgs.substring(0,1);
+        String command = "";
+        if (commandAndArgs.length() > 0) command = commandAndArgs.substring(0,1);
 
-        //Lo sé, demasiadas condiciones, pero quiero que el programa sea capaz de manejar todos los posibles casos de entrada
+        //Lo se, demasiadas condiciones, pero quiero que el programa sea capaz de manejar todos los posibles casos de entrada
         switch(command) {
             case "h":
             case "H":
-                if (commandAndArgs.equalsIgnoreCase("help")|| commandAndArgs.length() == 1) {
+                if (commandAndArgs.equalsIgnoreCase("help") || commandAndArgs.length() == 1) {
                     System.out.print(helpMsg);
                 }
                 else if (commandAndArgs.substring(0,3).equalsIgnoreCase("help") && commandAndArgs.length() != 4) {
@@ -88,23 +95,21 @@ public class Controller {
             case "":
             case "n":
             case "N":
-                if (commandAndArgs.length() > 4 && commandAndArgs.substring(0,3).equalsIgnoreCase("none")) {
+            	if (commandAndArgs.length() <= 1) break;
+            	else if (commandAndArgs.equalsIgnoreCase("none")) {
+                    break;
+                }
+                else if (commandAndArgs.length() > 4 && commandAndArgs.substring(0,3).equalsIgnoreCase("none")) {
                     tooManyArgs();
+                    break;
                 }
-                else if (commandAndArgs.length() != 1) {
-                    unknownCommand();
-                }
-                break;
-
+                else unknownCommand();
+            	break;
             case "a":
             case "A":
-                if (    commandAndArgs.substring(0,2).equalsIgnoreCase("add") &&
-                        commandAndArgs.substring(3,4).contentEquals(" ")) {
-                    addSlayer(commandAndArgs);
-                }
-                else if (commandAndArgs.substring(1,2).contentEquals(" ")) {
-                    addSlayer(commandAndArgs);
-                }
+            	String[] pieces = commandAndArgs.split(" ");
+            	
+                if (pieces[0].length() == 1 || pieces[0].equalsIgnoreCase("add")) addSlayer(commandAndArgs);
                 else unknownCommand();
                 break;
             case "r":
@@ -163,27 +168,29 @@ public class Controller {
     }
     
     public void resetGame() {
-        game.emptyBoard();
-        //new objectboard
+    	this.game = new Game(seedBackup, levelBackup);
     }
 
     public void addSlayer(String command) {
         int posX, posY;
-        
-        if (    command.substring(1,2).contentEquals(" ") &&
-                command.substring(3,4).contentEquals(" ")) {
-            posX = Integer.parseInt(command.substring(2,3));
-            posY = Integer.parseInt(command.substring(4,5));
+        String[] pieces = command.split(" ");
+
+        if (pieces[0].length() == 1) {
+            posX = Integer.parseInt(pieces[1]);
+            posY = Integer.parseInt(pieces[2]);
             game.getGameObjectBoard().addSlayer(posX, posY);
+            short[][] board = game.getBoard();
+            board[posX][posY] = 1;
+            game.setBoard(board);
         }
-        else if (command.substring(3,4).contentEquals(" ") &&
-                 command.substring(5,6).contentEquals(" ")) {
-            posX = Integer.parseInt(command.substring(4,5));
-            posY = Integer.parseInt(command.substring(6,7));
+        else if (pieces[0].length() == 3) {
+            posX = Integer.parseInt(pieces[1]);
+            posY = Integer.parseInt(pieces[2]);
             game.getGameObjectBoard().addSlayer(posX, posY);
+            short[][] board = game.getBoard();
+            board[posX][posY] = 1;
+            game.setBoard(board);
         }
         else System.out.println(invalidCommandMsg);
     }
-    
-    //TODO func addVampires();
 }

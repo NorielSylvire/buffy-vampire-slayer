@@ -1,9 +1,10 @@
 package org.ucm.tp1.Logic;
 
-import java.util.Random;
+import java.util.*;
 
 public class Game {
     private Long seed;
+    private Long seedBackup;
     private Level level;
     private int cycles;
     private short[][] board = new short[8][8];
@@ -16,15 +17,39 @@ public class Game {
     
     public Game(long seed, Level level) {
         this.seed = seed;
+        this.seedBackup = seed;
         this.level = level;
         this.cycles = 0;
         emptyBoard();
         this.gameObjectBoard = new GameObjectBoard(level);
     }
     
+    public void update() {
+    	int i = 0;
+    	gameObjectBoard.update(randomGenerator(seed) >= 0.5);
+    	gameObjectBoard.attack();
+    	//add vampires
+    	boolean added = false;
+    	/*while (i < level.getDim_y() && !added) {
+    		if (randomGenerator(seed) <= (level.getVampireFrequency()/level.getDim_y())) {
+    			added = gameObjectBoard.addVampire(level.getDim_x()-1, i);
+    			board[level.getDim_x()-1][i] = 2;
+    			i++;
+    		}
+    	}*/
+    	gameObjectBoard.newaddVampire(randomGenerator(seed), level.getDim_y(), level.getDim_x(), level.getVampireFrequency());
+    	gameObjectBoard.removeDead();
+    	cycles++;
+    }
+    
+    public String toStringObjectAt(int row, int column) {
+    	return this.gameObjectBoard.searchPos(row, column);
+    }
+    
     public double randomGenerator(Long seed) {
     	Random generator = new Random(seed);
-    	setSeed(seed++);
+    	this.seed = (long)generator.nextInt();
+    	generator.setSeed(seed);
     	return generator.nextDouble();
     }
     
@@ -44,7 +69,15 @@ public class Game {
         this.board = newBoard;
     }
     
-    public Level getLevel() {
+    public Long getSeedBackup() {
+		return seedBackup;
+	}
+
+	public void setSeedBackup(Long seedBackup) {
+		this.seedBackup = seedBackup;
+	}
+
+	public Level getLevel() {
         return level;
     }
     

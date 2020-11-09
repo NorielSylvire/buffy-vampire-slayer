@@ -4,11 +4,13 @@ import org.ucm.tp1.Logic.Level;
 
 public class VampireList {
 	private int vRemaining;	//restar cada vez que aparezca uno
+	private int vAlive;
 	private int counter;	//vampiros que han aparecido
 	Vampire[] vampireList;
 	
 	public VampireList(Level l) {
 		this.counter = 0;
+		this.vAlive = 0;
 		this.vRemaining = l.getNumberOfVampires();			//numero de vampiros en esa dificultad
 		this.vampireList = new Vampire[this.vRemaining];	//crear array de vampiros
 		for(int i = 0; i < this.vRemaining; i++) {			//inicializar vampiros
@@ -29,6 +31,7 @@ public class VampireList {
 	public void addVampire(int row, int column){
 		this.vampireList[this.counter].deployVampire(row, column);		//deploy slayer
 		this.counter++;
+		this.vAlive++;
 		this.vRemaining--;
 	}
 	
@@ -45,6 +48,8 @@ public class VampireList {
 		for(int i = 0; i < this.counter; i++) {
 			if(this.vampireList[i].getHealth() <= 0) {
 				this.vampireList[i].setDeployed(false);
+				this.vampireList[i].setHealth(3);
+				this.vAlive--;
 			}
 		}
 	}
@@ -69,6 +74,14 @@ public class VampireList {
 
 	public void setVampireList(Vampire[] vampireList) {
 		this.vampireList = vampireList;
+	}
+
+	public int getvAlive() {
+		return vAlive;
+	}
+
+	public void setvAlive(int vAlive) {
+		this.vAlive = vAlive;
 	}
 	
 	
