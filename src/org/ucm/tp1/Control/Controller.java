@@ -25,9 +25,9 @@ public class Controller {
     private Game game;
     private Scanner scanner;
     private Gameprinter gameprinter;
-    private long seedBackup;
-    private Level levelBackup;
-    private boolean help;
+    private long seedBackup;		//reset
+    private Level levelBackup;		//reset
+    private boolean help;			//no avanzar un ciclo
     
     public Controller(Game game, Scanner scanner) {
         this.game = game;
@@ -38,7 +38,7 @@ public class Controller {
         this.exitGame = false;
     }
     
-    public void  printGame() {
+    public void  printGame() {		//info messages & board
         System.out.println("Number of cycles: " + game.getCycles());
         System.out.println("Coins: " + game.getGameObjectBoard().getPlayer().getCoins());
         System.out.println("Remaining vampires: " + game.getGameObjectBoard().getVampireList().getvRemaining());
@@ -51,17 +51,16 @@ public class Controller {
         String command = "";
         
         while(!exitGame) {
-            //clearConsole();
         	do {
-            printGame();
+            printGame();		//print game
             help = false;
             System.out.print(prompt);
-            command = scanner.nextLine();
+            command = scanner.nextLine();		//intruction
         	}while(!executeCommand(command) || help);
-            game.update();
+            game.update();		//game mechanics
             help = false;
             command = "";
-            switch(game.checkEnd()) {
+            switch(game.checkEnd()) {		//check win/lose
             case 1:
             	exitGame = true;
             	System.out.println("YOU WIN!!");
@@ -80,9 +79,8 @@ public class Controller {
         if (commandAndArgs.length() > 0) command = commandAndArgs.substring(0,1);
         boolean correctCommand = false;
 
-        //Lo se, demasiadas condiciones, pero quiero que el programa sea capaz de manejar todos los posibles casos de entrada
         switch(command) {
-            case "h":
+            case "h":		//help
             case "H":
                 if (commandAndArgs.equalsIgnoreCase("help") || commandAndArgs.length() == 1) {
                     System.out.print(helpMsg);
@@ -94,7 +92,7 @@ public class Controller {
                 }
                 else unknownCommand();
                 break;
-            case "":
+            case "":		//next cicle
             case "n":
             case "N":
             	if (commandAndArgs.length() <= 1) {
@@ -112,7 +110,7 @@ public class Controller {
                 }
                 else unknownCommand();
             	break;
-            case "a":
+            case "a":		//add slayer
             case "A":
             	String[] pieces = commandAndArgs.split(" ");
             	
@@ -121,7 +119,7 @@ public class Controller {
                 }
                 else unknownCommand();
                 break;
-            case "r":
+            case "r":		//reset
             case "R":
                 if (commandAndArgs.equalsIgnoreCase("reset") || commandAndArgs.length() == 1) {
                     if (confirm()) {
@@ -135,7 +133,7 @@ public class Controller {
                 }
                 else unknownCommand();
                 break;
-            case "e":
+            case "e":		//exit
             case "E":
                 if (commandAndArgs.equalsIgnoreCase("exit") || commandAndArgs.length() == 1) {
                     if (confirm()) {
@@ -192,7 +190,7 @@ public class Controller {
         String[] pieces = command.split(" ");
         posY = Integer.parseInt(pieces[1]);
         posX = Integer.parseInt(pieces[2]);
-        if (posX <= 0 || posX >= game.getLevel().getDim_x() || posY <= 0 || posY > game.getLevel().getDim_y()) {
+        if (posX <= 0 || posX >= game.getLevel().getDim_x() || posY <= 0 || posY > game.getLevel().getDim_y()) {		//entra en el tablero
             System.out.print(invalidCommandMsg + "\nInvalid position.\n");
         }
         else {

@@ -1,5 +1,3 @@
-//He creado la función encodeGame() y sus atributos necesarios para que se pueda imprimir el tablero
-//TODO: Modificar el encodeGame() para que pueda distinguir entre distintos tipos de slayer y vampiros, cuando los haya
 package org.ucm.tp1.view;
 import org.ucm.tp1.Logic.Game;
 import org.ucm.tp1.utils.MyStringUtils;
@@ -17,11 +15,11 @@ public class Gameprinter {
         encodeGame(game);
     }
     
-    private void encodeGame(Game game) {
+    private void encodeGame(Game game) {		//generate & fill board
 		board = new String[numRows][numCols];
         for(int i = 0; i < numRows; i++) {
             for(int j = 0; j < numCols; j++) {
-            	board[i][j] =  game.toStringObjectAt(i, j);
+            	board[i][j] =  game.toStringObjectAt(i, j);		//search object in that pos
             }
         }
     }

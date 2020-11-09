@@ -5,7 +5,7 @@ public class Player {
 	private int coins;
 	//constructor
 	public Player() {
-		this.coins = 500;
+		this.coins = 50;
 	}
 	//setters&getters
 	public int getCoins() {

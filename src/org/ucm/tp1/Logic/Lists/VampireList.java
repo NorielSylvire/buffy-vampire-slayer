@@ -4,7 +4,7 @@ import org.ucm.tp1.Logic.Level;
 
 public class VampireList {
 	private int vRemaining;	//restar cada vez que aparezca uno
-	private int vAlive;
+	private int vAlive;		//v on board
 	private int counter;	//vampiros que han aparecido
 	Vampire[] vampireList;
 	
@@ -38,8 +38,8 @@ public class VampireList {
 	public void moveVampires() {
 		for(int i = 0; i < this.counter; i++) {
 			if(vampireList[i].getDeployed()) {
-				if(vampireList[i].getMove()) vampireList[i].moveForward();
-				vampireList[i].setMove(!vampireList[i].getMove());
+				if(vampireList[i].getMove()) vampireList[i].moveForward();		//move if true
+				vampireList[i].setMove(!vampireList[i].getMove());		//change move
 			}
 		}
 	}

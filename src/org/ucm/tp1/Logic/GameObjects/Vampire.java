@@ -13,7 +13,7 @@ public class Vampire {
 		this.health = 3;
         this.fireRate = 1;
         this.damage = 1;
-        this.move = false;
+        this.move = false;		//it changes each turn
         this.deployed = false;
 	}
     public void deployVampire(int row, int column) {

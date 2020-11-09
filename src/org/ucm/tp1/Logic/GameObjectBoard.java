@@ -18,11 +18,11 @@ public class GameObjectBoard {
 	
 	public boolean checkWin() {
 		boolean win = false;	
-		if(vampireList.getvRemaining() == 0 && vampireList.getvAlive() == 0) win = true;	
+		if(vampireList.getvRemaining() == 0 && vampireList.getvAlive() == 0) win = true;	//no v left on the board and remaining
 		return win;
 	}
 	
-	public boolean checkLose() {
+	public boolean checkLose() {		//vampire about to move and on the first column
 		boolean lose = false;	
 		for(int i = 0; i < vampireList.getCounter(); i++) {
 			if(vampireList.getVampireList()[i].getColumn() == 0 && vampireList.getVampireList()[i].getMove()) lose = true;
@@ -31,9 +31,9 @@ public class GameObjectBoard {
 	}
 	
 	public void update(boolean addCoins){
-		if(addCoins) this.player.setCoins(this.player.getCoins()+10);
+		if(addCoins) this.player.setCoins(this.player.getCoins()+10);		//add coins
 		
-		//move vampires
+		//move vampires if theres no slayer/vampire in front
 		for(int j = 0; j < this.vampireList.getCounter(); j++) {
 			if(!this.vampireList.checkPos(this.vampireList.getVampireList()[j].getRow(), this.vampireList.getVampireList()[j].getColumn()-1)) {
 				this.vampireList.getVampireList()[j].setMove(false);
@@ -96,7 +96,7 @@ public class GameObjectBoard {
 		this.vampireList.removeDead();
 	}
 	
-	String searchPos(int row, int column) {
+	String searchPos(int row, int column) {		//search object 4 the board
 		String object = " ";
 		boolean found = false;
 		

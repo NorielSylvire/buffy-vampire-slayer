@@ -1,5 +1,3 @@
-//He creado los getter de las dimensiones para el printGame
-//He añadido los getters y setters de todos los atributos
 package org.ucm.tp1.Logic;
 
 public enum Level {
