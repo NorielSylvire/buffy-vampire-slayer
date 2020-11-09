@@ -22,8 +22,8 @@ public class Slayer {
     /* TODO When new types of damage are added, such as area or diagonal,
      * create an enum with the different types. */
     public void deploySlayer(int row, int column) {
-    	this.column = row;
-    	this.row = column;
+    	this.row = row;
+    	this.column = column;
     	this.deployed = true;
     }
     
@@ -40,7 +40,6 @@ public class Slayer {
     public void setHealth(int health) {
         this.health = health;
     }
-
     public int getFireRate() {
         return fireRate;
     }

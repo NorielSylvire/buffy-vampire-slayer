@@ -17,12 +17,12 @@ public class Vampire {
         this.deployed = false;
 	}
     public void deployVampire(int row, int column) {
-    	this.column = row;
-    	this.row = column;
+    	this.row = row;
+    	this.column = column;
     	this.deployed = true;
     }
 	public void moveForward() {
-		this.setColumn(this.getColumn()-1);
+		this.column--;
 	}
 	public int getHealth() {
 		return health;

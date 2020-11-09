@@ -5,7 +5,7 @@ import org.ucm.tp1.view.Gameprinter;
 
 
 public class Controller {
-    private boolean exitGame = false;
+    private boolean exitGame;
     
     public final String prompt = "Command > ";
     public static final String helpMsg = String.format(
@@ -27,12 +27,15 @@ public class Controller {
     private Gameprinter gameprinter;
     private long seedBackup;
     private Level levelBackup;
+    private boolean help;
     
     public Controller(Game game, Scanner scanner) {
         this.game = game;
     	this.levelBackup = this.game.getLevel();
         this.scanner = scanner;
         this.seedBackup = this.game.getSeed();
+        this.help = false;
+        this.exitGame = false;
     }
     
     public void  printGame() {
@@ -40,7 +43,7 @@ public class Controller {
         System.out.println("Coins: " + game.getGameObjectBoard().getPlayer().getCoins());
         System.out.println("Remaining vampires: " + game.getGameObjectBoard().getVampireList().getvRemaining());
         System.out.println("Vampires on the board: " + game.getGameObjectBoard().getVampireList().getvAlive());
-        this.gameprinter = new Gameprinter(game, game.getLevel().getDim_x(), game.getLevel().getDim_y());
+        this.gameprinter = new Gameprinter(game, game.getLevel().getDim_y(), game.getLevel().getDim_x());
         System.out.println(gameprinter);
     }
     
@@ -49,11 +52,14 @@ public class Controller {
         
         while(!exitGame) {
             //clearConsole();
+        	do {
             printGame();
+            help = false;
             System.out.print(prompt);
             command = scanner.nextLine();
-            executeCommand(command);
+        	}while(!executeCommand(command) || help);
             game.update();
+            help = false;
             command = "";
             switch(game.checkEnd()) {
             case 1:
@@ -69,10 +75,10 @@ public class Controller {
         }
     }
 
-
-    public void executeCommand(String commandAndArgs) {
+    public boolean executeCommand(String commandAndArgs) {
         String command = "";
         if (commandAndArgs.length() > 0) command = commandAndArgs.substring(0,1);
+        boolean correctCommand = false;
 
         //Lo se, demasiadas condiciones, pero quiero que el programa sea capaz de manejar todos los posibles casos de entrada
         switch(command) {
@@ -80,6 +86,8 @@ public class Controller {
             case "H":
                 if (commandAndArgs.equalsIgnoreCase("help") || commandAndArgs.length() == 1) {
                     System.out.print(helpMsg);
+                    correctCommand = true;
+                    help = true;
                 }
                 else if (commandAndArgs.substring(0,3).equalsIgnoreCase("help") && commandAndArgs.length() != 4) {
                     tooManyArgs();
@@ -89,12 +97,17 @@ public class Controller {
             case "":
             case "n":
             case "N":
-            	if (commandAndArgs.length() <= 1) break;
+            	if (commandAndArgs.length() <= 1) {
+            		correctCommand = true;
+            		break;
+            	}
             	else if (commandAndArgs.equalsIgnoreCase("none")) {
+            		correctCommand = true;
                     break;
                 }
                 else if (commandAndArgs.length() > 4 && commandAndArgs.substring(0,3).equalsIgnoreCase("none")) {
                     tooManyArgs();
+                    correctCommand = true;
                     break;
                 }
                 else unknownCommand();
@@ -103,7 +116,9 @@ public class Controller {
             case "A":
             	String[] pieces = commandAndArgs.split(" ");
             	
-                if (pieces[0].length() == 1 || pieces[0].equalsIgnoreCase("add")) addSlayer(commandAndArgs);
+                if (pieces[0].length() == 1 || pieces[0].equalsIgnoreCase("add")) {
+                	if(addSlayer(commandAndArgs)) correctCommand = true;
+                }
                 else unknownCommand();
                 break;
             case "r":
@@ -111,17 +126,22 @@ public class Controller {
                 if (commandAndArgs.equalsIgnoreCase("reset") || commandAndArgs.length() == 1) {
                     if (confirm()) {
                         resetGame();
+                    	correctCommand = true;
                     }
                 }
                 else if (commandAndArgs.substring(0,4).equalsIgnoreCase("reset") && commandAndArgs.substring(3,4) == " ") {
                     tooManyArgs();
+                    correctCommand = true;
                 }
                 else unknownCommand();
                 break;
             case "e":
             case "E":
                 if (commandAndArgs.equalsIgnoreCase("exit") || commandAndArgs.length() == 1) {
-                    if (confirm()) this.exitGame = true;
+                    if (confirm()) {
+                    	this.exitGame = true;
+                    	correctCommand = true;
+                    }
                 }
                 else if (commandAndArgs.substring(0,4).equalsIgnoreCase("exit") &&
                          commandAndArgs.substring(3,4).contentEquals(" ")) {
@@ -132,6 +152,7 @@ public class Controller {
             default:
                 unknownCommand();
         }
+        return correctCommand;
     }
 
     public void unknownCommand() {
@@ -165,20 +186,22 @@ public class Controller {
     	this.game = new Game(seedBackup, levelBackup);
     }
 
-    public void addSlayer(String command) {
+    public boolean addSlayer(String command) {
         int posX, posY;
+        boolean validCommand = false;
         String[] pieces = command.split(" ");
-
-        if (pieces[0].length() == 1) {
-            posX = Integer.parseInt(pieces[1]);
-            posY = Integer.parseInt(pieces[2]);
-            game.getGameObjectBoard().addSlayer(posX, posY);
+        posY = Integer.parseInt(pieces[1]);
+        posX = Integer.parseInt(pieces[2]);
+        if (posX <= 0 || posX >= game.getLevel().getDim_x() || posY <= 0 || posY > game.getLevel().getDim_y()) {
+            System.out.print(invalidCommandMsg + "\nInvalid position.\n");
         }
-        else if (pieces[0].length() == 3) {
-            posX = Integer.parseInt(pieces[1]);
-            posY = Integer.parseInt(pieces[2]);
-            game.getGameObjectBoard().addSlayer(posX, posY);
+        else {
+            if (!game.getGameObjectBoard().addSlayer(posY, posX)) {
+                validCommand = false;
+                System.out.println("Could not add slayer in that position. The position is occupied.");
+            }
+            else validCommand = true;
         }
-        else System.out.println(invalidCommandMsg);
+        return validCommand;
     }
 }

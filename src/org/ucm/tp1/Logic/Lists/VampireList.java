@@ -46,7 +46,7 @@ public class VampireList {
 	
 	public void removeDead() {
 		for(int i = 0; i < this.counter; i++) {
-			if(this.vampireList[i].getHealth() <= 0) {
+			if(this.vampireList[i].getHealth() <= 0 && this.vampireList[i].getDeployed()) {
 				this.vampireList[i].setDeployed(false);
 				this.vampireList[i].setHealth(3);
 				this.vAlive--;
@@ -57,32 +57,26 @@ public class VampireList {
 	public int getCounter() {
 		return counter;
 	}
-
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
 	public int getvRemaining() {
 		return vRemaining;
 	}
-
 	public void setvRemaining(int vRemaining) {
 		this.vRemaining = vRemaining;
 	}
 	public Vampire[] getVampireList() {
 		return vampireList;
 	}
-
 	public void setVampireList(Vampire[] vampireList) {
 		this.vampireList = vampireList;
 	}
-
 	public int getvAlive() {
 		return vAlive;
 	}
-
 	public void setvAlive(int vAlive) {
 		this.vAlive = vAlive;
 	}
-	
-	
+		
 }

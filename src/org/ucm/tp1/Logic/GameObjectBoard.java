@@ -35,6 +35,9 @@ public class GameObjectBoard {
 		
 		//move vampires
 		for(int j = 0; j < this.vampireList.getCounter(); j++) {
+			if(!this.vampireList.checkPos(this.vampireList.getVampireList()[j].getRow(), this.vampireList.getVampireList()[j].getColumn()-1)) {
+				this.vampireList.getVampireList()[j].setMove(false);
+			}
 			if(!this.slayerList.checkPos(this.vampireList.getVampireList()[j].getRow(), this.vampireList.getVampireList()[j].getColumn()-1)) {
 				this.vampireList.getVampireList()[j].setMove(false);
 			}
@@ -66,7 +69,7 @@ public class GameObjectBoard {
 		row--;
 		column--;
 		boolean added = false;
-		if(this.slayerList.getCounter() < 28 && this.player.getCoins() >= 50 && this.slayerList.checkPos(row, column) && this.vampireList.checkPos(row, column)) {
+		if(this.slayerList.getCounter() < 30 && this.player.getCoins() >= 50 && this.slayerList.checkPos(row, column) && this.vampireList.checkPos(row, column)) {
 			this.slayerList.addSlayer(row, column);
 			this.getPlayer().setCoins(this.getPlayer().getCoins()-50);		//update coins
 			added = true;
@@ -81,8 +84,6 @@ public class GameObjectBoard {
 		if(rand <= frequency && this.vampireList.getvRemaining() > 0) {
 			int row = (int)(Math.round(rand*100) % nRows);
 			if(this.vampireList.checkPos(row, nColumns)) {
-				System.out.println(row);
-				System.out.println(nColumns);
 				this.vampireList.addVampire(row, nColumns);
 			}
 		}
@@ -101,7 +102,7 @@ public class GameObjectBoard {
 		
 		//search vampire		
 		for (int j = 0; j < this.vampireList.getCounter(); j++) {
-			if (this.vampireList.getVampireList()[j].getRow()== (row-1) && this.vampireList.getVampireList()[j].getColumn() == (column-1) && this.vampireList.getVampireList()[j].getDeployed()) {
+			if (this.vampireList.getVampireList()[j].getRow()== row && this.vampireList.getVampireList()[j].getColumn() == column && this.vampireList.getVampireList()[j].getDeployed()) {
 				found = true;
 				object = "V[" + this.vampireList.getVampireList()[j].getHealth() + "]";
 			}
@@ -110,7 +111,7 @@ public class GameObjectBoard {
 		//search slayer
 		if(!found)
 			for (int k = 0; k < this.slayerList.getCounter(); k++) {
-				if (this.slayerList.getSlayerList()[k].getRow()== row && this.slayerList.getSlayerList()[k].getColumn() == column && this.slayerList.getSlayerList()[k].getDeployed()) {
+				if (this.slayerList.getSlayerList()[k].getRow() == row && this.slayerList.getSlayerList()[k].getColumn() == column && this.slayerList.getSlayerList()[k].getDeployed()) {
 					found = true;
 					object = "S[" + this.slayerList.getSlayerList()[k].getHealth() + "]";
 				}

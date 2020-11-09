@@ -6,14 +6,14 @@ import org.ucm.tp1.utils.MyStringUtils;
 
 public class Gameprinter {
     
-    int numRows; 
-    int numCols;
+    int numCols; 
+    int numRows;
     String[][] board;
     final String space = " ";
     
-    public Gameprinter (Game game, int cols, int rows) {
-        this.numRows = rows;
+    public Gameprinter (Game game, int rows, int cols) {
         this.numCols = cols;
+    	this.numRows = rows;
         encodeGame(game);
     }
     
