@@ -48,7 +48,7 @@ public class Controller {
         String command = "";
         
         while(!exitGame) {
-            //clearConsole(); Doesn't work yet
+            //clearConsole();
             printGame();
             System.out.print(prompt);
             command = scanner.nextLine();
@@ -57,24 +57,7 @@ public class Controller {
             command = "";
         }
     }
-    
-    public static void clearConsole(){
 
-        //Clears Screen in java AND doesn't work
-
-        try {
-
-            if (System.getProperty("os.name").contains("Windows"))
-
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-
-            else
-
-                Runtime.getRuntime().exec("clear");
-
-        } catch (Exception e) {}
-            //TODO
-    }
 
     public void executeCommand(String commandAndArgs) {
         String command = "";
@@ -179,17 +162,11 @@ public class Controller {
             posX = Integer.parseInt(pieces[1]);
             posY = Integer.parseInt(pieces[2]);
             game.getGameObjectBoard().addSlayer(posX, posY);
-            short[][] board = game.getBoard();
-            board[posX][posY] = 1;
-            game.setBoard(board);
         }
         else if (pieces[0].length() == 3) {
             posX = Integer.parseInt(pieces[1]);
             posY = Integer.parseInt(pieces[2]);
             game.getGameObjectBoard().addSlayer(posX, posY);
-            short[][] board = game.getBoard();
-            board[posX][posY] = 1;
-            game.setBoard(board);
         }
         else System.out.println(invalidCommandMsg);
     }

@@ -61,25 +61,16 @@ public class GameObjectBoard {
 		return added;
 	}
 	
-	/*public boolean addVampire(int row, int column){
-		boolean added = false;
-		if(this.vampireList.getvRemaining() > 0 && this.vampireList.checkPos(row, column)) {
-			this.vampireList.addVampire(row, column);
-			added = true;
-		}
-		return added;
-	}*/
-	
-	public void newaddVampire(double rand, int nRows, int nColumns, double frequency){
+	public void addVampire(double rand, int nRows, int nColumns, double frequency){
 		//calcular si añadirlo o no
 		//calcular en que fila iria
-		//añadirlo
-		boolean added = false;
-		int row = (int)(Math.round(rand*100) % nRows);
-		if(rand <= frequency) {
+		//añadirlo		
+		if(rand <= frequency && this.vampireList.getvRemaining() > 0) {
+			int row = (int)(Math.round(rand*100) % nRows);
 			if(this.vampireList.checkPos(row, nColumns)) {
-				this.vampireList.addVampire(row, nColumns);
-				added = true;
+				System.out.println(row);
+				System.out.println(nColumns);
+				this.vampireList.addVampire(2, 4);
 			}
 		}
 	}
@@ -96,10 +87,10 @@ public class GameObjectBoard {
 		boolean found = false;
 		
 		//search vampire		
-		for (int k = 0; k < this.vampireList.getCounter(); k++) {
-			if (this.vampireList.getVampireList()[k].getRow()== row && this.vampireList.getVampireList()[k].getColumn() == column && this.vampireList.getVampireList()[k].getDeployed()) {
+		for (int j = 0; j < this.vampireList.getCounter(); j++) {
+			if (this.vampireList.getVampireList()[j].getRow()== (row-1) && this.vampireList.getVampireList()[j].getColumn() == (column-1) && this.vampireList.getVampireList()[j].getDeployed()) {
 				found = true;
-				object = "V[" + this.vampireList.getVampireList()[k].getHealth() + "]";
+				object = "V[" + this.vampireList.getVampireList()[j].getHealth() + "]";
 			}
 		}
 		
