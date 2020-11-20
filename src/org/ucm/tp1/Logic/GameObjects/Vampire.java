@@ -1,45 +1,69 @@
 package org.ucm.tp1.Logic.GameObjects;
 
-import java.util.Scanner;
-import org.ucm.tp1.Logic.Level;
-import org.ucm.tp1.Control.Controller;
-import org.ucm.tp1.Logic.Game;
-
 public class Vampire {
-		public static final String version = "1.0";
-		public static final String usageMsg = "Usage: Vampire slayer <level> [seed]";
-		public static final String welcomeMsg = String.format("Buffy the Vampire Slayer " + version + "%n");
-		public static final String levelInfoMsg = "Level must be one of: " + Level.all(", ");
-		public static final String seedIsNumberMsg = "the seed must be a number";
-		public static final String seedInfoMsg = "Random generator initialized with seed: ";
-
-	public static void main(String[] args) {
-		if (args.length < 1 || args.length > 2)
-			System.out.print(usageMsg);
-		else {
-			Level level = Level.parse(args[0]);
-			if(level == null) {
-				 System.out.println(usageMsg);
-				 System.out.println(levelInfoMsg);
-			}
-			else {
-				Long seed;
-				try {
-					if (args.length == 2)						
-						seed = Long.parseLong(args[1]);
-					else
-						seed = System.currentTimeMillis();
-					
-					System.out.print(welcomeMsg);
-					System.out.println(seedInfoMsg + seed);
-					
-					Controller controller = new Controller(new Game(seed, level), new Scanner(System.in));
-					controller.run();
-				}
-				catch (NumberFormatException nfe) {
-						System.out.println(usageMsg + ": " + seedIsNumberMsg);
-				}
-			}
-		}
+	private int health;
+	private int fireRate;
+	private int damage;
+	private int row;
+	private int column;
+	private boolean move;		//indica si le toca moverse ese turno o no
+	private boolean deployed;
+	
+	public Vampire(){
+		this.health = 3;
+        this.fireRate = 1;
+        this.damage = 1;
+        this.move = false;		//it changes each turn
+        this.deployed = false;
+	}
+    public void deployVampire(int row, int column) {
+    	this.row = row;
+    	this.column = column;
+    	this.deployed = true;
+    }
+	public void moveForward() {
+		this.column--;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	public int getFireRate() {
+		return fireRate;
+	}
+	public void setFireRate(int fireRate) {
+		this.fireRate = fireRate;
+	}
+	public int getDamage() {
+		return damage;
+	}
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	public int getRow() {
+		return row;
+	}
+	public void setRow(int row) {
+		this.row = row;
+	}
+	public int getColumn() {
+		return column;
+	}
+	public void setColumn(int column) {
+		this.column = column;
+	}
+	public boolean getMove() {
+		return move;
+	}
+	public void setMove(boolean move) {
+		this.move = move;
+	}
+	public boolean getDeployed() {
+		return deployed;
+	}
+	public void setDeployed(boolean deployed) {
+		this.deployed = deployed;
 	}
 }

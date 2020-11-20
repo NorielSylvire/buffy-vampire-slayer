@@ -3,56 +3,59 @@ import org.ucm.tp1.Logic.Game;
 import org.ucm.tp1.utils.MyStringUtils;
 
 public class Gameprinter {
-	
-	Game game;
-	int numRows; 
-	int numCols;
-	String[][] board;
-	final String space = " ";
-	
-	public Gameprinter (Game game, int cols, int rows) {
-		this.game = game;
-		this.numRows = rows;
-		this.numCols = cols;
-	}
-	
-	private void encodeGame(Game game) {
-		// TODO fill your code
-	}
-	
-	 public String toString() {
-		encodeGame(game);
-		int cellSize = 7;
-		int marginSize = 2;
-		String vDelimiter = "|";
-		String hDelimiter = "-";
-		String intersect = space;
-		String vIntersect = space;
-		String hIntersect = "-";
-		String corner = space;
+    
+    int numCols; 
+    int numRows;
+    String[][] board;
+    final String space = " ";
+    
+    public Gameprinter (Game game, int rows, int cols) {
+        this.numCols = cols;
+    	this.numRows = rows;
+        encodeGame(game);
+    }
+    
+    private void encodeGame(Game game) {		//generate & fill board
+		board = new String[numRows][numCols];
+        for(int i = 0; i < numRows; i++) {
+            for(int j = 0; j < numCols; j++) {
+            	board[i][j] =  game.toStringObjectAt(i, j);		//search object in that pos
+            }
+        }
+    }
+    
+     public String toString() {
 
-		String cellDelimiter = MyStringUtils.repeat(hDelimiter, cellSize);
+         int cellSize = 7;
+         int marginSize = 2;
+         String vDelimiter = "|";
+         String hDelimiter = "-";
+         String intersect = space;
+         String vIntersect = space;
+         String hIntersect = "-";
+         String corner = space;
 
-		String rowDelimiter = vIntersect + MyStringUtils.repeat(cellDelimiter + intersect, numCols-1) + cellDelimiter + vIntersect;
-		String hEdge =  corner + MyStringUtils.repeat(cellDelimiter + hIntersect, numCols-1) + cellDelimiter + corner;
+         String cellDelimiter = MyStringUtils.repeat(hDelimiter, cellSize);
 
-		String margin = MyStringUtils.repeat(space, marginSize);
-		String lineEdge = String.format("%n%s%s%n", margin, hEdge);
-		String lineDelimiter = String.format("%n%s%s%n", margin, rowDelimiter);
+         String rowDelimiter = vIntersect + MyStringUtils.repeat(cellDelimiter + intersect, numCols-1) + cellDelimiter + vIntersect;
+         String hEdge =  corner + MyStringUtils.repeat(cellDelimiter + hIntersect, numCols-1) + cellDelimiter + corner;
 
-		StringBuilder str = new StringBuilder();
+         String margin = MyStringUtils.repeat(space, marginSize);
+         String lineEdge = String.format("%n%s%s%n", margin, hEdge);
+         String lineDelimiter = String.format("%n%s%s%n", margin, rowDelimiter);
 
-		str.append(lineEdge);
-		for(int i=0; i<numRows; i++) {
-		        str.append(margin).append(vDelimiter);
-		        for (int j=0; j<numCols; j++)
-		            str.append( MyStringUtils.centre(board[i][j], cellSize)).append(vDelimiter);
-		        if (i != numRows - 1) str.append(lineDelimiter);
-		        else str.append(lineEdge);   
-		}
 
-		return str.toString();
-	    }
+         StringBuilder str = new StringBuilder();
+
+         str.append(lineEdge);
+         for(int i=0; i<numRows; i++) {
+                str.append(margin).append(vDelimiter);
+                for (int j=0; j<numCols; j++)
+                    str.append( MyStringUtils.centre(board[i][j], cellSize)).append(vDelimiter);
+                if (i != numRows - 1) str.append(lineDelimiter);
+                else str.append(lineEdge);   
+         }
+
+         return str.toString();
+    }
 }
-
-
